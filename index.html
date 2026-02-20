@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bharat Singh Rawat, Ph.D. // Portfolio Portal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Fira+Code:wght@400;700&family=Oswald:wght@700&display=swap');
+        /* Imported all required fonts, including 'Press Start 2P' for DOS */
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Fira+Code:wght@400;700&family=Oswald:wght@700&family=Press+Start+2P&display=swap');
 
         :root {
             /* Glitch Colors */
@@ -16,6 +17,7 @@
             --comic-main: #fff200; --comic-dark: #cc002c; 
             --stranger-main: #e62323; --stranger-dark: #8a0000;
             --batman-main: #ffcc00; --batman-dark: #997a00;
+            --dos-main: #39ff14; --dos-dark: #006400; 
             --bg-color: #050505;
         }
 
@@ -30,7 +32,7 @@
             background-image: radial-gradient(circle at 50% 0%, #1a1a24 0%, var(--bg-color) 70%);
         }
 
-        /* --- THE ORIGINAL GLITCH HEADER --- */
+        /* --- THE GLITCH HEADER --- */
         .header-area { 
             margin-top: 8vh; 
             z-index: 10; 
@@ -40,7 +42,6 @@
         }
         .glitch-wrapper { position: relative; margin-bottom: 0.5rem; }
         
-        /* Adjusted font size to use clamp so it doesn't break on small mobile screens */
         h1.glitch-name { 
             font-size: clamp(1.8rem, 5vw, 3.5rem); 
             text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; margin: 0; 
@@ -48,7 +49,6 @@
         h1.glitch-name::before, h1.glitch-name::after { 
             content: "Bharat Singh Rawat, Ph.D."; 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; 
-            /* Ensures pseudo-elements scale with the main font */
             font-size: inherit; 
         }
         h1.glitch-name::before { color: var(--glitch-cyan); z-index: -1; animation: glitch-anim 1s infinite linear alternate-reverse; }
@@ -72,13 +72,14 @@
             color: #888; letter-spacing: 6px; text-transform: uppercase; 
         }
 
-        /* --- 3D BUTTON GRID --- */
+        /* --- 3D BUTTON LAYOUT (FLEXBOX FOR PERFECT CENTERING) --- */
         .control-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
             gap: 30px;
-            width: 90vw;
-            max-width: 800px;
+            width: 95vw;
+            max-width: 1050px; 
             perspective: 1000px;
             padding-bottom: 80px;
         }
@@ -89,6 +90,8 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             height: 130px;
+            width: 300px; 
+            max-width: 85vw; /* Keeps buttons strictly inside mobile bounds */
             background-color: #111;
             border: 2px solid;
             border-radius: 12px;
@@ -104,15 +107,19 @@
         .btn-comic { border-color: var(--comic-main); box-shadow: 0 10px 0 var(--comic-dark), 0 20px 20px rgba(0,0,0,0.8); }
         .btn-stranger { border-color: var(--stranger-main); box-shadow: 0 10px 0 var(--stranger-dark), 0 20px 20px rgba(0,0,0,0.8); }
         .btn-batman { border-color: var(--batman-main); box-shadow: 0 10px 0 var(--batman-dark), 0 20px 20px rgba(0,0,0,0.8); }
+        .btn-dos { border-color: var(--dos-main); box-shadow: 0 10px 0 var(--dos-dark), 0 20px 20px rgba(0,0,0,0.8); }
 
         /* Typography inside buttons */
-        .btn-id { font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px; letter-spacing: 2px; pointer-events: none; }
-        .btn-title { font-size: 1.8rem; margin: 0; text-transform: uppercase; pointer-events: none; }
+        .btn-id { font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px; letter-spacing: 2px; pointer-events: none; text-align: center;}
+        .btn-title { font-size: clamp(1.3rem, 5vw, 1.8rem); margin: 0; text-transform: uppercase; pointer-events: none; text-align: center; }
 
         .btn-terminal .btn-title { font-family: 'Fira Code', monospace; color: var(--terminal-main); text-shadow: 0 0 8px rgba(252, 238, 10, 0.4); }
-        .btn-comic .btn-title { font-family: 'Bangers', cursive; color: var(--comic-main); letter-spacing: 2px; font-size: 2.2rem; text-shadow: 2px 2px 0 #000; }
+        .btn-comic .btn-title { font-family: 'Bangers', cursive; color: var(--comic-main); letter-spacing: 2px; font-size: clamp(1.8rem, 6vw, 2.2rem); text-shadow: 2px 2px 0 #000; }
         .btn-stranger .btn-title { font-family: 'Oswald', sans-serif; color: var(--stranger-main); letter-spacing: 3px; }
         .btn-batman .btn-title { font-family: 'Oswald', sans-serif; color: var(--batman-main); letter-spacing: 4px; }
+        
+        /* DOS Title uses clamp to ensure the wide 8-bit font never breaks on mobile */
+        .btn-dos .btn-title { font-family: 'Press Start 2P', monospace; color: var(--dos-main); letter-spacing: 0px; font-size: clamp(0.7rem, 4vw, 1.1rem); text-shadow: 2px 2px 0 #000; padding: 0 10px; line-height: 1.4; }
 
         /* --- INTERACTION (HOVER & PRESS) --- */
         @media (hover: hover) {
@@ -121,6 +128,7 @@
             .btn-comic:hover { box-shadow: 0 13px 0 var(--comic-dark), 0 25px 25px rgba(0,0,0,0.9); }
             .btn-stranger:hover { box-shadow: 0 13px 0 var(--stranger-dark), 0 25px 25px rgba(0,0,0,0.9); }
             .btn-batman:hover { box-shadow: 0 13px 0 var(--batman-dark), 0 25px 25px rgba(0,0,0,0.9); }
+            .btn-dos:hover { box-shadow: 0 13px 0 var(--dos-dark), 0 25px 25px rgba(0,0,0,0.9); }
         }
 
         /* The "Press" action */
@@ -129,6 +137,7 @@
         .btn-comic:active, .btn-comic.is-pressed { box-shadow: 0 0 0 var(--comic-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
         .btn-stranger:active, .btn-stranger.is-pressed { box-shadow: 0 0 0 var(--stranger-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
         .btn-batman:active, .btn-batman.is-pressed { box-shadow: 0 0 0 var(--batman-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
+        .btn-dos:active, .btn-dos.is-pressed { box-shadow: 0 0 0 var(--dos-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
 
         footer { margin-top: auto; padding: 20px; font-size: 0.8rem; letter-spacing: 2px; color: #555; text-align: center; }
     </style>
@@ -164,12 +173,17 @@
             <h2 class="btn-title">BATCAVE Dossier</h2>
         </a>
 
+        <a href="https://bharat26031992.github.io/DosGame_Theme_CV_Template/" class="btn-3d btn-dos" data-theme="dos">
+            <div class="btn-id">C:\> CV.EXE</div>
+            <h2 class="btn-title">8-Bit Quest</h2>
+        </a>
+
     </div>
 
     <footer>ION SOURCE & BEAM DIAGNOSTICS EXPERT</footer>
 
     <script>
-        // --- AUDIO ENGINE (Unchanged from original) ---
+        // --- AUDIO ENGINE ---
         let audioCtx;
 
         function initAudio() {
@@ -245,6 +259,25 @@
                 filter.connect(masterGain);
                 osc.start();
                 osc.stop(now + 0.5);
+                
+            } else if (theme === 'dos') {
+                // NEW: Classic 8-Bit "Coin/1-Up" Arpeggio
+                const osc = audioCtx.createOscillator();
+                osc.type = 'square';
+                
+                // Play first note (B5), then jump instantly to second note (E6)
+                osc.frequency.setValueAtTime(987.77, now);
+                osc.frequency.setValueAtTime(1318.51, now + 0.1); 
+                
+                // Volume envelope for a quick, bright 'ding'
+                masterGain.gain.setValueAtTime(0, now);
+                masterGain.gain.linearRampToValueAtTime(0.06, now + 0.02);
+                masterGain.gain.setValueAtTime(0.06, now + 0.1);
+                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                
+                osc.connect(masterGain);
+                osc.start();
+                osc.stop(now + 0.3);
             }
         }
 
@@ -254,25 +287,21 @@
         buttons.forEach(btn => {
             const theme = btn.getAttribute('data-theme');
             
-            // Re-added Hover Sound (Just like your original code)
             btn.addEventListener('mouseenter', () => {
                 playThemedSound(theme);
             });
 
-            // Click / Tap Logic (with animation delay before page load)
             btn.addEventListener('click', (e) => {
                 e.preventDefault(); 
                 const href = btn.getAttribute('href');
 
                 btn.classList.add('is-pressed');
-                
-                // Play sound on click for mobile users (since they don't hover)
                 playThemedSound(theme);
 
                 setTimeout(() => {
                     btn.classList.remove('is-pressed');
                     window.location.href = href;
-                }, 300); // 300ms delay to see the button press down
+                }, 300); 
             });
         });
     </script>
