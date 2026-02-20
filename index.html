@@ -10,14 +10,14 @@
         :root {
             --spider-red: #ff0037; --spider-blue: #2e3192; --glitch-cyan: #00ffff;
             --glitch-magenta: #ff00ff; --comic-yellow: #fff200; --void-black: #050505;
-            --terminal-yellow: #fcee0a;
+            --terminal-yellow: #fcee0a; --bat-yellow: #ffcc00;
             --move-x: 0; --move-y: 0;
         }
 
         body {
             margin: 0; padding: 0;
             display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
+            justify-content: flex-start; align-items: center;
             height: 100vh; background-color: #050505; 
             color: #fff; font-family: 'Fira Code', monospace;
             text-align: center; overflow: hidden;
@@ -42,11 +42,12 @@
             transition: transform 0.1s ease-out;
         }
 
-        /* --- NAME GLITCH --- */
-        .glitch-wrapper { position: relative; margin-bottom: 0.5rem; z-index: 10; }
-        h1.glitch-name { font-size: 2.8rem; text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; margin: 0; }
+        /* --- HEADER AREA --- */
+        .header-area { margin-top: 8vh; z-index: 10; margin-bottom: 3vh; }
+        .glitch-wrapper { position: relative; margin-bottom: 0.5rem; }
+        h1.glitch-name { font-size: 3.5rem; text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; margin: 0; }
         h1.glitch-name::before, h1.glitch-name::after { content: "Bharat Singh Rawat, Ph.D."; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
-        h1.glitch-name::before { color: var(--glitch-cyan); z-index: -1; animation: glitch-anim 3s infinite linear alternate-reverse; }
+        h1.glitch-name::before { color: var(--glitch-cyan); z-index: -1; animation: glitch-anim 1s infinite linear alternate-reverse; }
         h1.glitch-name::after { color: var(--glitch-magenta); z-index: -2; animation: glitch-anim-2 3s infinite linear alternate-reverse; }
 
         @keyframes glitch-anim {
@@ -55,23 +56,68 @@
             94% { transform: translate(5px, -2px); clip-path: inset(40% 0 10% 0); }
             96% { transform: translate(-2px, 5px); clip-path: inset(70% 0 5% 0); }
         }
+        @keyframes glitch-anim-2 {
+            0%, 90%, 100% { transform: translate(0); clip-path: inset(0 0 0 0); }
+            92% { transform: translate(5px, -2px); clip-path: inset(20% 0 10% 0); }
+            94% { transform: translate(-5px, 2px); clip-path: inset(60% 0 20% 0); }
+            96% { transform: translate(2px, -5px); clip-path: inset(40% 0 40% 0); }
+        }
 
-        h3 { margin-top: 0; margin-bottom: 4rem; font-weight: 400; font-size: 0.9rem; color: #888; letter-spacing: 4px; text-transform: uppercase; }
+        h3 { margin: 0; font-weight: 400; font-size: 1rem; color: #888; letter-spacing: 6px; text-transform: uppercase; }
 
-        /* --- BUTTONS --- */
-        .button-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 1100px; padding: 20px; z-index: 10; }
-        .btn { padding: 20px 40px; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* --- THE MULTIVERSE RIFT (ACCORDION) --- */
+        .rift-container {
+            display: flex; width: 90vw; height: 55vh; max-width: 1400px;
+            gap: 10px; z-index: 10; padding: 10px;
+        }
 
-        .btn-terminal { background-color: var(--terminal-yellow); color: #000; border-right: 5px solid var(--glitch-cyan); box-shadow: 0px 0px 15px rgba(252, 238, 10, 0.4); font-family: 'Fira Code', monospace; display: flex; align-items: center; gap: 8px; }
-        .btn-terminal:hover { transform: scale(1.08) rotate(-1deg); box-shadow: 0px 0px 30px var(--terminal-yellow); }
+        .rift-panel {
+            flex: 1; position: relative; border-radius: 10px; overflow: hidden;
+            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s;
+            cursor: pointer; text-decoration: none; display: flex;
+            align-items: center; justify-content: center; filter: grayscale(80%) brightness(0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Hover Expansion */
+        .rift-panel:hover { flex: 5; filter: grayscale(0%) brightness(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+
+        /* The Internal Text */
+        .rift-content {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transform: translateY(20px) scale(0.9);
+            transition: all 0.4s ease; transition-delay: 0.1s; white-space: nowrap;
+        }
+        .rift-panel:hover .rift-content { opacity: 1; transform: translateY(0) scale(1); }
+
+        .rift-number { font-size: 1.5rem; opacity: 0.5; margin-bottom: 10px; }
+        .rift-title { font-size: 3rem; text-transform: uppercase; margin: 0; }
+
+        /* --- INDIVIDUAL DIMENSION STYLES --- */
         
-        .btn-comic { font-family: 'Bangers', cursive; background-color: var(--spider-red); color: #fff; font-size: 1.8rem; padding: 15px 35px; border: 4px solid #fff; box-shadow: 8px 8px 0px var(--spider-blue); transform: rotate(-2deg); }
-        .btn-comic:hover { transform: scale(1.1) rotate(2deg); background-color: var(--comic-yellow); color: #000; box-shadow: -8px 8px 0px var(--spider-red); }
+        /* 1. Terminal */
+        .panel-terminal { background: linear-gradient(180deg, #051005, #002200); border-bottom: 4px solid var(--terminal-yellow); }
+        .panel-terminal:hover { border-color: var(--glitch-cyan); }
+        .panel-terminal .rift-content { font-family: 'Fira Code', monospace; color: var(--terminal-yellow); text-shadow: 0 0 10px var(--glitch-cyan); }
 
-        .btn-stranger { background-color: #000; color: #e62323; border: 2px solid #e62323; box-shadow: 0px 0px 10px rgba(230, 35, 35, 0.4); font-family: 'Oswald', sans-serif; }
-        .btn-stranger:hover { transform: scale(1.08) rotate(1deg); background-color: #1a0000; box-shadow: 0px 0px 25px #e62323; }
+        /* 2. Comic */
+        .panel-comic { 
+            background: radial-gradient(circle, #2e3192 10%, transparent 11%), 
+                        radial-gradient(circle, #2e3192 10%, transparent 11%), var(--spider-red);
+            background-size: 20px 20px; background-position: 0 0, 10px 10px; 
+            border-bottom: 4px solid #fff;
+        }
+        .panel-comic .rift-content { font-family: 'Bangers', cursive; color: var(--comic-yellow); text-shadow: 4px 4px 0px #000; letter-spacing: 2px; }
 
-        footer { position: fixed; bottom: 30px; font-size: 0.8rem; letter-spacing: 2px; color: #555; }
+        /* 3. Stranger */
+        .panel-stranger { background: linear-gradient(180deg, #0a0000, #330000); border-bottom: 4px solid #e62323; }
+        .panel-stranger .rift-content { font-family: 'Oswald', sans-serif; color: #e62323; text-shadow: 0 0 15px #ff0000; letter-spacing: 5px; }
+
+        /* 4. Batman */
+        .panel-batman { background: linear-gradient(180deg, #111, #000); border-bottom: 4px solid var(--bat-yellow); }
+        .panel-batman .rift-content { font-family: 'Oswald', sans-serif; color: var(--bat-yellow); text-shadow: 0 0 20px rgba(255, 204, 0, 0.5); letter-spacing: 8px; }
+
+        footer { position: fixed; bottom: 20px; font-size: 0.8rem; letter-spacing: 2px; color: #555; }
     </style>
 </head>
 <body>
@@ -81,23 +127,43 @@
         <div class="dot-layer"></div>
     </div>
 
-    <div class="glitch-wrapper">
-        <h1 class="glitch-name">Bharat Singh Rawat, <span style="color:var(--glitch-cyan)">Ph.D.</span></h1>
+    <div class="header-area">
+        <div class="glitch-wrapper">
+            <h1 class="glitch-name">Bharat Singh Rawat, <span style="color:var(--glitch-cyan)">Ph.D.</span></h1>
+        </div>
+        <h3>Initialize Dimensional Interface</h3>
     </div>
-    <h3>Select An Interface</h3>
 
-    <div class="button-container">
-        <a href="https://bharat26031992.github.io/CV/" class="btn btn-terminal" onmouseenter="playThemedSound('terminal')">
-            Terminal_View
+    <div class="rift-container">
+        
+        <a href="https://bharat26031992.github.io/CV/" class="rift-panel panel-terminal" onmouseenter="playThemedSound('terminal')">
+            <div class="rift-content">
+                <div class="rift-number">SYS.01</div>
+                <h2 class="rift-title">Terminal_View</h2>
+            </div>
         </a>
 
-        <a href="https://bharat26031992.github.io/Comic_Theme_CV_Template/" class="btn btn-comic" onmouseenter="playThemedSound('comic')">
-            Into the Multiverse
+        <a href="https://bharat26031992.github.io/Comic_Theme_CV_Template/" class="rift-panel panel-comic" onmouseenter="playThemedSound('comic')">
+            <div class="rift-content">
+                <div class="rift-number">EARTH-616</div>
+                <h2 class="rift-title">Into The Multiverse</h2>
+            </div>
         </a>
 
-        <a href="https://bharat26031992.github.io/StrangerThings_CV_Template/" class="btn btn-stranger" onmouseenter="playThemedSound('stranger')">
-            The Upside Down
+        <a href="https://bharat26031992.github.io/StrangerThings_CV_Template/" class="rift-panel panel-stranger" onmouseenter="playThemedSound('stranger')">
+            <div class="rift-content">
+                <div class="rift-number">HAWKINS.83</div>
+                <h2 class="rift-title">The Upside Down</h2>
+            </div>
         </a>
+
+        <a href="https://bharat26031992.github.io/Batman_Theme_CV_Template/" class="rift-panel panel-batman" onmouseenter="playThemedSound('batman')">
+            <div class="rift-content">
+                <div class="rift-number">ARKHAM</div>
+                <h2 class="rift-title">BATCAVE Dossier</h2>
+            </div>
+        </a>
+
     </div>
 
     <footer>
@@ -122,6 +188,8 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
+        // Initialize audio context on first interaction anywhere on screen
+        window.addEventListener('mouseover', initAudio, { once: true });
         window.addEventListener('mousedown', initAudio, { once: true });
 
         function playThemedSound(theme) {
@@ -133,57 +201,60 @@
             masterGain.connect(audioCtx.destination);
 
             if (theme === 'terminal') {
-                // High-tech Data Burst (Short, mechanical, professional)
                 const osc = audioCtx.createOscillator();
                 osc.type = 'square';
                 osc.frequency.setValueAtTime(150, now);
-                osc.frequency.exponentialRampToValueAtTime(40, now + 0.1);
-                
-                masterGain.gain.setValueAtTime(0.1, now);
-                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-                
+                osc.frequency.exponentialRampToValueAtTime(40, now + 0.15);
+                masterGain.gain.setValueAtTime(0.08, now);
+                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
                 osc.connect(masterGain);
                 osc.start();
-                osc.stop(now + 0.1);
+                osc.stop(now + 0.15);
 
             } else if (theme === 'comic') {
-                // Cinematic "Swoosh" with Grit
                 const osc = audioCtx.createOscillator();
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(200, now);
-                osc.frequency.exponentialRampToValueAtTime(400, now + 0.2);
-
+                osc.frequency.exponentialRampToValueAtTime(500, now + 0.25);
                 masterGain.gain.setValueAtTime(0, now);
-                masterGain.gain.linearRampToValueAtTime(0.1, now + 0.05);
-                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-
+                masterGain.gain.linearRampToValueAtTime(0.08, now + 0.05);
+                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
                 osc.connect(masterGain);
                 osc.start();
-                osc.stop(now + 0.2);
+                osc.stop(now + 0.25);
 
             } else if (theme === 'stranger') {
-                // The "Upside Down" - Cinematic Filter Sweep
-                // Using a Sawtooth for rich 80s texture
                 const osc = audioCtx.createOscillator();
                 const filter = audioCtx.createBiquadFilter();
-                
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(80, now); // Deep bass note
-                
+                osc.frequency.setValueAtTime(80, now); 
                 filter.type = 'lowpass';
                 filter.frequency.setValueAtTime(100, now);
-                filter.frequency.exponentialRampToValueAtTime(1500, now + 0.4); // The "Wow" sweep
-                filter.Q.value = 10; // Resonance boost
-
+                filter.frequency.exponentialRampToValueAtTime(2000, now + 0.5);
+                filter.Q.value = 15; 
                 masterGain.gain.setValueAtTime(0, now);
-                masterGain.gain.linearRampToValueAtTime(0.3, now + 0.1); // Louder gain
+                masterGain.gain.linearRampToValueAtTime(0.2, now + 0.1); 
                 masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-
                 osc.connect(filter);
                 filter.connect(masterGain);
-                
                 osc.start();
                 osc.stop(now + 0.8);
+
+            } else if (theme === 'batman') {
+                const osc = audioCtx.createOscillator();
+                const filter = audioCtx.createBiquadFilter();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(250, now);
+                osc.frequency.exponentialRampToValueAtTime(30, now + 0.4);
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(400, now);
+                masterGain.gain.setValueAtTime(0, now);
+                masterGain.gain.linearRampToValueAtTime(0.2, now + 0.05); 
+                masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5); 
+                osc.connect(filter);
+                filter.connect(masterGain);
+                osc.start();
+                osc.stop(now + 0.5);
             }
         }
     </script>
