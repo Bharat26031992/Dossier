@@ -8,45 +8,49 @@
         @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Fira+Code:wght@400;700&family=Oswald:wght@700&display=swap');
 
         :root {
-            --spider-red: #ff0037; --spider-blue: #2e3192; --glitch-cyan: #00ffff;
-            --glitch-magenta: #ff00ff; --comic-yellow: #fff200; --void-black: #050505;
-            --terminal-yellow: #fcee0a; --bat-yellow: #ffcc00;
-            --move-x: 0; --move-y: 0;
+            /* Glitch Colors */
+            --glitch-cyan: #00ffff; --glitch-magenta: #ff00ff;
+            
+            /* Button Colors */
+            --terminal-main: #fcee0a; --terminal-dark: #b8ad00;
+            --comic-main: #fff200; --comic-dark: #cc002c; 
+            --stranger-main: #e62323; --stranger-dark: #8a0000;
+            --batman-main: #ffcc00; --batman-dark: #997a00;
+            --bg-color: #050505;
         }
 
         body {
             margin: 0; padding: 0;
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: 'Fira Code', monospace;
             display: flex; flex-direction: column;
             justify-content: flex-start; align-items: center;
-            height: 100vh; background-color: #050505; 
-            color: #fff; font-family: 'Fira Code', monospace;
-            text-align: center; overflow: hidden;
-            perspective: 1000px;
+            min-height: 100vh; overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a24 0%, var(--bg-color) 70%);
         }
 
-        /* --- PARALLAX BACKGROUND --- */
-        #bg-parallax-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        .grid-layer {
-            position: absolute; inset: -100px;
-            background-image: linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 60px 60px;
-            transform: translate(calc(var(--move-x) * -20px), calc(var(--move-y) * -20px));
-            transition: transform 0.1s ease-out;
+        /* --- THE ORIGINAL GLITCH HEADER --- */
+        .header-area { 
+            margin-top: 8vh; 
+            z-index: 10; 
+            margin-bottom: 6vh; 
+            text-align: center;
+            padding: 0 15px;
         }
-        .dot-layer {
-            position: absolute; inset: 0;
-            background-image: radial-gradient(rgba(255,255,255,0.08) 2px, transparent 2px);
-            background-size: 30px 30px;
-            transform: translate(calc(var(--move-x) * 10px), calc(var(--move-y) * 10px));
-            transition: transform 0.1s ease-out;
-        }
-
-        /* --- HEADER AREA --- */
-        .header-area { margin-top: 8vh; z-index: 10; margin-bottom: 3vh; }
         .glitch-wrapper { position: relative; margin-bottom: 0.5rem; }
-        h1.glitch-name { font-size: 3.5rem; text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; margin: 0; }
-        h1.glitch-name::before, h1.glitch-name::after { content: "Bharat Singh Rawat, Ph.D."; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
+        
+        /* Adjusted font size to use clamp so it doesn't break on small mobile screens */
+        h1.glitch-name { 
+            font-size: clamp(1.8rem, 5vw, 3.5rem); 
+            text-transform: uppercase; letter-spacing: 2px; position: relative; display: inline-block; margin: 0; 
+        }
+        h1.glitch-name::before, h1.glitch-name::after { 
+            content: "Bharat Singh Rawat, Ph.D."; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; 
+            /* Ensures pseudo-elements scale with the main font */
+            font-size: inherit; 
+        }
         h1.glitch-name::before { color: var(--glitch-cyan); z-index: -1; animation: glitch-anim 1s infinite linear alternate-reverse; }
         h1.glitch-name::after { color: var(--glitch-magenta); z-index: -2; animation: glitch-anim-2 3s infinite linear alternate-reverse; }
 
@@ -63,69 +67,73 @@
             96% { transform: translate(2px, -5px); clip-path: inset(40% 0 40% 0); }
         }
 
-        h3 { margin: 0; font-weight: 400; font-size: 1rem; color: #888; letter-spacing: 6px; text-transform: uppercase; }
-
-        /* --- THE MULTIVERSE RIFT (ACCORDION) --- */
-        .rift-container {
-            display: flex; width: 90vw; height: 55vh; max-width: 1400px;
-            gap: 10px; z-index: 10; padding: 10px;
+        h3 { 
+            margin: 0; font-weight: 400; font-size: clamp(0.8rem, 2vw, 1rem); 
+            color: #888; letter-spacing: 6px; text-transform: uppercase; 
         }
 
-        .rift-panel {
-            flex: 1; position: relative; border-radius: 10px; overflow: hidden;
-            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s;
-            cursor: pointer; text-decoration: none; display: flex;
-            align-items: center; justify-content: center; filter: grayscale(80%) brightness(0.6);
-            border: 1px solid rgba(255,255,255,0.1);
+        /* --- 3D BUTTON GRID --- */
+        .control-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 90vw;
+            max-width: 800px;
+            perspective: 1000px;
+            padding-bottom: 80px;
         }
 
-        /* Hover Expansion */
-        .rift-panel:hover { flex: 5; filter: grayscale(0%) brightness(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.2); }
-
-        /* The Internal Text */
-        .rift-content {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transform: translateY(20px) scale(0.9);
-            transition: all 0.4s ease; transition-delay: 0.1s; white-space: nowrap;
+        /* --- THE 3D BUTTONS --- */
+        .btn-3d {
+            position: relative;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            height: 130px;
+            background-color: #111;
+            border: 2px solid;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, filter 0.2s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
-        .rift-panel:hover .rift-content { opacity: 1; transform: translateY(0) scale(1); }
 
-        .rift-number { font-size: 1.5rem; opacity: 0.5; margin-bottom: 10px; }
-        .rift-title { font-size: 3rem; text-transform: uppercase; margin: 0; }
+        /* The 3D Base (Box Shadow) */
+        .btn-terminal { border-color: var(--terminal-main); box-shadow: 0 10px 0 var(--terminal-dark), 0 20px 20px rgba(0,0,0,0.8); }
+        .btn-comic { border-color: var(--comic-main); box-shadow: 0 10px 0 var(--comic-dark), 0 20px 20px rgba(0,0,0,0.8); }
+        .btn-stranger { border-color: var(--stranger-main); box-shadow: 0 10px 0 var(--stranger-dark), 0 20px 20px rgba(0,0,0,0.8); }
+        .btn-batman { border-color: var(--batman-main); box-shadow: 0 10px 0 var(--batman-dark), 0 20px 20px rgba(0,0,0,0.8); }
 
-        /* --- INDIVIDUAL DIMENSION STYLES --- */
-        
-        /* 1. Terminal */
-        .panel-terminal { background: linear-gradient(180deg, #051005, #002200); border-bottom: 4px solid var(--terminal-yellow); }
-        .panel-terminal:hover { border-color: var(--glitch-cyan); }
-        .panel-terminal .rift-content { font-family: 'Fira Code', monospace; color: var(--terminal-yellow); text-shadow: 0 0 10px var(--glitch-cyan); }
+        /* Typography inside buttons */
+        .btn-id { font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px; letter-spacing: 2px; pointer-events: none; }
+        .btn-title { font-size: 1.8rem; margin: 0; text-transform: uppercase; pointer-events: none; }
 
-        /* 2. Comic */
-        .panel-comic { 
-            background: radial-gradient(circle, #2e3192 10%, transparent 11%), 
-                        radial-gradient(circle, #2e3192 10%, transparent 11%), var(--spider-red);
-            background-size: 20px 20px; background-position: 0 0, 10px 10px; 
-            border-bottom: 4px solid #fff;
+        .btn-terminal .btn-title { font-family: 'Fira Code', monospace; color: var(--terminal-main); text-shadow: 0 0 8px rgba(252, 238, 10, 0.4); }
+        .btn-comic .btn-title { font-family: 'Bangers', cursive; color: var(--comic-main); letter-spacing: 2px; font-size: 2.2rem; text-shadow: 2px 2px 0 #000; }
+        .btn-stranger .btn-title { font-family: 'Oswald', sans-serif; color: var(--stranger-main); letter-spacing: 3px; }
+        .btn-batman .btn-title { font-family: 'Oswald', sans-serif; color: var(--batman-main); letter-spacing: 4px; }
+
+        /* --- INTERACTION (HOVER & PRESS) --- */
+        @media (hover: hover) {
+            .btn-3d:hover { filter: brightness(1.2); transform: translateY(-3px); }
+            .btn-terminal:hover { box-shadow: 0 13px 0 var(--terminal-dark), 0 25px 25px rgba(0,0,0,0.9); }
+            .btn-comic:hover { box-shadow: 0 13px 0 var(--comic-dark), 0 25px 25px rgba(0,0,0,0.9); }
+            .btn-stranger:hover { box-shadow: 0 13px 0 var(--stranger-dark), 0 25px 25px rgba(0,0,0,0.9); }
+            .btn-batman:hover { box-shadow: 0 13px 0 var(--batman-dark), 0 25px 25px rgba(0,0,0,0.9); }
         }
-        .panel-comic .rift-content { font-family: 'Bangers', cursive; color: var(--comic-yellow); text-shadow: 4px 4px 0px #000; letter-spacing: 2px; }
 
-        /* 3. Stranger */
-        .panel-stranger { background: linear-gradient(180deg, #0a0000, #330000); border-bottom: 4px solid #e62323; }
-        .panel-stranger .rift-content { font-family: 'Oswald', sans-serif; color: #e62323; text-shadow: 0 0 15px #ff0000; letter-spacing: 5px; }
+        /* The "Press" action */
+        .btn-3d:active, .btn-3d.is-pressed { transform: translateY(10px) !important; }
+        .btn-terminal:active, .btn-terminal.is-pressed { box-shadow: 0 0 0 var(--terminal-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
+        .btn-comic:active, .btn-comic.is-pressed { box-shadow: 0 0 0 var(--comic-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
+        .btn-stranger:active, .btn-stranger.is-pressed { box-shadow: 0 0 0 var(--stranger-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
+        .btn-batman:active, .btn-batman.is-pressed { box-shadow: 0 0 0 var(--batman-dark), 0 5px 5px rgba(0,0,0,0.5) !important; }
 
-        /* 4. Batman */
-        .panel-batman { background: linear-gradient(180deg, #111, #000); border-bottom: 4px solid var(--bat-yellow); }
-        .panel-batman .rift-content { font-family: 'Oswald', sans-serif; color: var(--bat-yellow); text-shadow: 0 0 20px rgba(255, 204, 0, 0.5); letter-spacing: 8px; }
-
-        footer { position: fixed; bottom: 20px; font-size: 0.8rem; letter-spacing: 2px; color: #555; }
+        footer { margin-top: auto; padding: 20px; font-size: 0.8rem; letter-spacing: 2px; color: #555; text-align: center; }
     </style>
 </head>
 <body>
-
-    <div id="bg-parallax-container">
-        <div class="grid-layer"></div>
-        <div class="dot-layer"></div>
-    </div>
 
     <div class="header-area">
         <div class="glitch-wrapper">
@@ -134,51 +142,34 @@
         <h3>Initialize Dimensional Interface</h3>
     </div>
 
-    <div class="rift-container">
+    <div class="control-board">
         
-        <a href="https://bharat26031992.github.io/CV/" class="rift-panel panel-terminal" onmouseenter="playThemedSound('terminal')">
-            <div class="rift-content">
-                <div class="rift-number">SYS.01</div>
-                <h2 class="rift-title">Terminal_View</h2>
-            </div>
+        <a href="https://bharat26031992.github.io/CV/" class="btn-3d btn-terminal" data-theme="terminal">
+            <div class="btn-id">SYS.01</div>
+            <h2 class="btn-title">Terminal_View</h2>
         </a>
 
-        <a href="https://bharat26031992.github.io/Comic_Theme_CV_Template/" class="rift-panel panel-comic" onmouseenter="playThemedSound('comic')">
-            <div class="rift-content">
-                <div class="rift-number">EARTH-616</div>
-                <h2 class="rift-title">Into The Multiverse</h2>
-            </div>
+        <a href="https://bharat26031992.github.io/Comic_Theme_CV_Template/" class="btn-3d btn-comic" data-theme="comic">
+            <div class="btn-id">EARTH-616</div>
+            <h2 class="btn-title">Into The Multiverse</h2>
         </a>
 
-        <a href="https://bharat26031992.github.io/StrangerThings_CV_Template/" class="rift-panel panel-stranger" onmouseenter="playThemedSound('stranger')">
-            <div class="rift-content">
-                <div class="rift-number">HAWKINS.83</div>
-                <h2 class="rift-title">The Upside Down</h2>
-            </div>
+        <a href="https://bharat26031992.github.io/StrangerThings_CV_Template/" class="btn-3d btn-stranger" data-theme="stranger">
+            <div class="btn-id">HAWKINS.83</div>
+            <h2 class="btn-title">The Upside Down</h2>
         </a>
 
-        <a href="https://bharat26031992.github.io/Batman_Theme_CV_Template/" class="rift-panel panel-batman" onmouseenter="playThemedSound('batman')">
-            <div class="rift-content">
-                <div class="rift-number">ARKHAM</div>
-                <h2 class="rift-title">BATCAVE Dossier</h2>
-            </div>
+        <a href="https://bharat26031992.github.io/Batman_Theme_CV_Template/" class="btn-3d btn-batman" data-theme="batman">
+            <div class="btn-id">ARKHAM</div>
+            <h2 class="btn-title">BATCAVE Dossier</h2>
         </a>
 
     </div>
 
-    <footer>
-        ION SOURCE & BEAM DIAGNOSTICS EXPERT 
-    </footer>
+    <footer>ION SOURCE & BEAM DIAGNOSTICS EXPERT</footer>
 
     <script>
-        // Parallax
-        window.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) - 0.5;
-            const y = (e.clientY / window.innerHeight) - 0.5;
-            document.documentElement.style.setProperty('--move-x', x);
-            document.documentElement.style.setProperty('--move-y', y);
-        });
-
+        // --- AUDIO ENGINE (Unchanged from original) ---
         let audioCtx;
 
         function initAudio() {
@@ -188,9 +179,8 @@
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        // Initialize audio context on first interaction anywhere on screen
+        window.addEventListener('touchstart', initAudio, { once: true });
         window.addEventListener('mouseover', initAudio, { once: true });
-        window.addEventListener('mousedown', initAudio, { once: true });
 
         function playThemedSound(theme) {
             initAudio();
@@ -257,6 +247,34 @@
                 osc.stop(now + 0.5);
             }
         }
+
+        // --- BUTTON INTERACTION LOGIC ---
+        const buttons = document.querySelectorAll('.btn-3d');
+
+        buttons.forEach(btn => {
+            const theme = btn.getAttribute('data-theme');
+            
+            // Re-added Hover Sound (Just like your original code)
+            btn.addEventListener('mouseenter', () => {
+                playThemedSound(theme);
+            });
+
+            // Click / Tap Logic (with animation delay before page load)
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                const href = btn.getAttribute('href');
+
+                btn.classList.add('is-pressed');
+                
+                // Play sound on click for mobile users (since they don't hover)
+                playThemedSound(theme);
+
+                setTimeout(() => {
+                    btn.classList.remove('is-pressed');
+                    window.location.href = href;
+                }, 300); // 300ms delay to see the button press down
+            });
+        });
     </script>
 </body>
 </html>
